@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ErrorHandling/ErrorHandling.iml" filepath="$PROJECT_DIR$/ErrorHandling/ErrorHandling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IO.iml" filepath="$PROJECT_DIR$/IO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InputOutput/InputOutput.iml" filepath="$PROJECT_DIR$/InputOutput/InputOutput.iml" />
+    </modules>
+  </component>
+</project>
