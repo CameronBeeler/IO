@@ -1,5 +1,8 @@
+package cambeeler;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by dev on 8/12/2015.
@@ -29,5 +32,27 @@ public class Location {
 
     public Map<String, Integer> getExits() {
         return new HashMap<String, Integer>(exits);
+    }
+
+    @Override
+    public
+    String toString()
+    {
+        String builder = "Node ID = " + locationID + ", Node Desc = " + description.trim() + "\n";
+
+        builder += "--";
+        int incr = 0;
+
+        for(String s : exits.keySet())
+        {
+            if(incr++ == 0)
+            {
+                builder += s + ", Dest. node: " + exits.get(s).intValue()  ;
+            } else
+                {builder += ",\n--" + s + ", Dest. node: " + exits.get(s).intValue() ;}
+
+        }
+
+        return builder;
     }
 }
