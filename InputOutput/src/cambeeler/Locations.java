@@ -60,21 +60,25 @@ implements Map<Integer, Location>
     {
 //        READ THE NODE & DESCRIPTION DATA
 //        Scanner buffRead = null;
-        try(Scanner buffRead = new Scanner(new BufferedReader(new FileReader(FILENAME)));)
+//        try(Scanner buffRead = new Scanner(new BufferedReader(new FileReader(FILENAME)));)
+        try(BufferedReader br = new BufferedReader(new FileReader(FILENAME));)
         {
 //            Scanner buffRead = new Scanner(new BufferedReader(new FileReader(FILENAME)));
-            buffRead.useDelimiter(",");
-            String sTemp;
+
+            String sTemp, input;
             Integer iTemp;
-            while(buffRead.hasNext())
+            while((input = br.readLine()) != null)
             {
-                buffRead.useDelimiter(",");
-                iTemp = buffRead.nextInt();
-                buffRead.skip(buffRead.delimiter());
-                buffRead.useDelimiter("\n");
-                sTemp = buffRead.next();
+                String inputData[] = input.split(",");
+                iTemp = Integer.parseInt(inputData[0]);
+                sTemp = inputData[1];
+
+//                iTemp = buffRead.nextInt();
+//                buffRead.skip(buffRead.delimiter());
+//                buffRead.useDelimiter("\n");
+//                sTemp = buffRead.next();
                 locations.put(iTemp,new Location(iTemp, sTemp) );
-                buffRead.nextLine();
+//                buffRead.nextLine();
                 iTemp=-1;
                 sTemp=null;
             }
@@ -87,22 +91,28 @@ implements Map<Integer, Location>
 
 //        READ THE LOCATION-DIRECTION-EXIT DATA
 //        Scanner mapBuffRead = null;
-        try(Scanner mapBuffRead = new Scanner(new BufferedReader(new FileReader(DIRECTIONMAP))))
+//        try(Scanner mapBuffRead = new Scanner(new BufferedReader(new FileReader(DIRECTIONMAP))))
+        try(BufferedReader brExit = new BufferedReader(new FileReader(DIRECTIONMAP)))
         {
 //            mapBuffRead = new Scanner(new BufferedReader(new FileReader(DIRECTIONMAP)));
-            mapBuffRead.useDelimiter(",");
-            String direction;
+//            mapBuffRead.useDelimiter(",");
+            String direction, inputExit;
             Integer inode, newNode;
-            while(mapBuffRead.hasNext())
+            while((inputExit = brExit.readLine()) != null)
             {
-                mapBuffRead.useDelimiter(",");
-                inode = mapBuffRead.nextInt();
-                mapBuffRead.skip(mapBuffRead.delimiter());
-                direction = mapBuffRead.next();
-                mapBuffRead.skip(mapBuffRead.delimiter());
-                mapBuffRead.useDelimiter("\n");
-                newNode = mapBuffRead.nextInt();
-                mapBuffRead.nextLine();
+                String inputExitData[] = inputExit.split(",");
+                inode = Integer.parseInt(inputExitData[0]);
+                direction = inputExitData[1];
+                newNode = Integer.parseInt(inputExitData[2]);
+
+//                mapBuffRead.useDelimiter(",");
+//                inode = mapBuffRead.nextInt();
+//                mapBuffRead.skip(mapBuffRead.delimiter());
+//                direction = mapBuffRead.next();
+//                mapBuffRead.skip(mapBuffRead.delimiter());
+//                mapBuffRead.useDelimiter("\n");
+//                newNode = mapBuffRead.nextInt();
+//                mapBuffRead.nextLine();
                 if(direction.equalsIgnoreCase("Q"))continue;
                 locations.get(inode).addExit(direction, newNode);
                 inode=-1;
