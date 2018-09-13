@@ -1,5 +1,6 @@
 package cambeeler;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,18 +18,25 @@ implements Map<Integer, Location>
     throws IOException
     {
 
-        try(    FileWriter fw =  new FileWriter(FILENAME);
-                FileWriter dir =  new FileWriter(DIRECTIONMAP);
-           )
+//        try(    FileWriter fw =  new FileWriter(FILENAME);
+//                FileWriter dir =  new FileWriter(DIRECTIONMAP);
+//           )
+//        {
+//            for (Location l : locations.values())
+//            {
+//                fw.write(l.getLocationID() + "," + (l.getDescription().trim()) + "\n");
+//                for(String direction: l.getExits().keySet()) {
+//                    dir.write(l.getLocationID() + "," + direction + "," + l.getExits().get(direction) + "\n" );
+//                }
+//            }
+//        }
+
+//        PRINT OUT ALL LOCATIONS & EXITS
+        for(Location l:locations.values())
         {
-            for (Location l : locations.values())
-            {
-                fw.write(l.getLocationID() + ", " + l.getDescription() + "\n");
-                for(String direction: l.getExits().keySet()) {
-                    dir.write(l.getLocationID() + "," + direction + "," + l.getExits().get(direction) + "\n" );
-                }
-            }
+            System.out.println(l);
         }
+
     }
 
 
@@ -46,85 +54,150 @@ implements Map<Integer, Location>
 //            e.printStackTrace();
 //        }
 
+//    SIMPLE BUFFERED READER CODE REVIEW
     static
+
     {
-
-        Scanner read = null;
-        String[] input = null;
-        int node = -1, nodeDestination = -1;
-        String nodeDescription = null;
-        String nodeDirection = null;
-
-        try
+//        READ THE NODE & DESCRIPTION DATA
+//        Scanner buffRead = null;
+        try(Scanner buffRead = new Scanner(new BufferedReader(new FileReader(FILENAME)));)
         {
-//            first, get the locations, then get the directions
-
-            read = new Scanner(new FileReader(FILENAME));
-            read.useDelimiter(",");
-            while(read.hasNext())
+//            Scanner buffRead = new Scanner(new BufferedReader(new FileReader(FILENAME)));
+            buffRead.useDelimiter(",");
+            String sTemp;
+            Integer iTemp;
+            while(buffRead.hasNext())
             {
-                node = read.nextInt();
-                read.skip(read.delimiter());
-                nodeDescription = read.nextLine();
-                locations.put(node, new Location(node, nodeDescription));
-                node=-1;
-                nodeDescription=null;
+                buffRead.useDelimiter(",");
+                iTemp = buffRead.nextInt();
+                buffRead.skip(buffRead.delimiter());
+                buffRead.useDelimiter("\n");
+                sTemp = buffRead.next();
+                locations.put(iTemp,new Location(iTemp, sTemp) );
+                buffRead.nextLine();
+                iTemp=-1;
+                sTemp=null;
             }
         }
         catch(IOException e)
         {
             e.printStackTrace();
-        }
-        finally
-        {
-            System.out.println();
-            input=null;
-            read.close();
+            System.out.println("Failed to open / create a file handle");
         }
 
-        try
+//        READ THE LOCATION-DIRECTION-EXIT DATA
+//        Scanner mapBuffRead = null;
+        try(Scanner mapBuffRead = new Scanner(new BufferedReader(new FileReader(DIRECTIONMAP))))
         {
-            read = new Scanner(new FileReader(DIRECTIONMAP));
-            read.useDelimiter(",");
-
-            while(read.hasNext())
-            {// node, direction, nodedestination
-
-                input = read.nextLine().split(",");
-
-                node = read.nextInt();
-                read.skip(read.delimiter());
-                nodeDirection = read.next();
-                read.skip(read.delimiter());
-                System.out.println("node " + node + "Node Dir " + nodeDirection);
-                nodeDestination = read.nextInt();
-
-                locations.get(node).addExit(nodeDirection, nodeDestination);
-//                System.out.println("Node#: " + node + ", Dir: " + nodeDirection + ", Dest Node: " + nodeDestination);
-
-                node=-1;
-                nodeDirection=null;
-                nodeDestination = -1;
-
-            }
-            for(Integer i:locations.keySet())
+//            mapBuffRead = new Scanner(new BufferedReader(new FileReader(DIRECTIONMAP)));
+            mapBuffRead.useDelimiter(",");
+            String direction;
+            Integer inode, newNode;
+            while(mapBuffRead.hasNext())
             {
-                System.out.println(locations.get(i).toString());
-
+                mapBuffRead.useDelimiter(",");
+                inode = mapBuffRead.nextInt();
+                mapBuffRead.skip(mapBuffRead.delimiter());
+                direction = mapBuffRead.next();
+                mapBuffRead.skip(mapBuffRead.delimiter());
+                mapBuffRead.useDelimiter("\n");
+                newNode = mapBuffRead.nextInt();
+                mapBuffRead.nextLine();
+                if(direction.equalsIgnoreCase("Q"))continue;
+                locations.get(inode).addExit(direction, newNode);
+                inode=-1;
+                newNode = -1;
+                direction=null;
             }
-
-
         }
         catch(IOException e)
         {
             e.printStackTrace();
+            System.out.println("Failed to open / create a file handle");
         }
-        finally
-        {
-            read.close();
-        }
-
     }
+
+
+//        SIMPLE FILEREADER CODE REVIEW
+//    static
+//    {
+//
+//        Scanner read = null;
+//        String[] input = null;
+//        int node = -1, nodeDestination = -1;
+//        String nodeDescription = null;
+//        String nodeDirection = null;
+//
+//        try
+//        {
+////            first, get the locations, then get the directions
+//
+//            read = new Scanner(new FileReader(FILENAME));
+//            read.useDelimiter(",");
+//            while(read.hasNext())
+//            {
+//                node = read.nextInt();
+//                read.skip(read.delimiter());
+//                nodeDescription = read.nextLine();
+//                locations.put(node, new Location(node, nodeDescription));
+//                node=-1;
+//                nodeDescription=null;
+//            }
+//        }
+//        catch(IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            System.out.println();
+//            input=null;
+//            read.close();
+//        }
+//
+//        try
+//        {
+//            read = new Scanner(new FileReader(DIRECTIONMAP));
+//            read.useDelimiter(",");
+//
+//            while(read.hasNext())
+//            {// node, direction, nodedestination
+//
+//                input = read.nextLine().split(",");
+//
+//                node = read.nextInt();
+//                read.skip(read.delimiter());
+//                nodeDirection = read.next();
+//                read.skip(read.delimiter());
+//                System.out.println("node " + node + "Node Dir " + nodeDirection);
+//                nodeDestination = read.nextInt();
+//
+//                locations.get(node).addExit(nodeDirection, nodeDestination);
+////                System.out.println("Node#: " + node + ", Dir: " + nodeDirection + ", Dest Node: " + nodeDestination);
+//
+//                node=-1;
+//                nodeDirection=null;
+//                nodeDestination = -1;
+//
+//            }
+//            for(Integer i:locations.keySet())
+//            {
+//                System.out.println(locations.get(i).toString());
+//
+//            }
+//
+//
+//        }
+//        catch(IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        finally
+//        {
+//            read.close();
+//        }
+//
+//    }
  /*       locations.put(0, new Location(0, "You are sitting in front of a computer learning Java"));
         locations.put(1, new Location(1, "You are standing at the end of a road before a small brick building"));
         locations.put(2, new Location(2, "You are at the top of a hill"));

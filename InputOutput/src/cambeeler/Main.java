@@ -27,7 +27,7 @@ public class Main {
         vocabulary.put("EAST", "E");
 
 
-        int loc = 1;
+        int loc = 64;
         while(true) {
             System.out.println(locations.get(loc).getDescription());
             Map<String, Integer> exits = locations.get(loc).getExits();
@@ -50,6 +50,11 @@ public class Main {
 
             if(exits.containsKey(direction)) {
                 loc = exits.get(direction);
+                if(loc==0)
+                {
+                    System.out.println("Goodbye, Thanks for playing!");
+                    break;
+                }
 
             } else {
                 System.out.println("You cannot go in that direction");
