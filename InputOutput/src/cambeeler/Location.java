@@ -1,6 +1,7 @@
 package cambeeler;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,8 +16,15 @@ public class Location {
     public Location(int locationID, String description) {
         this.locationID = locationID;
         this.description = description;
-        this.exits = new HashMap<String, Integer>();
-        this.exits.put("Q", 0);
+        this.exits = new LinkedHashMap<String, Integer>();
+//        this.exits.put("Q", 0);
+    }
+
+    @Override
+    public
+    boolean equals(Object obj)
+    {
+        return super.equals(obj);
     }
 
     protected void addExit(String direction, int location) {
@@ -31,7 +39,7 @@ public class Location {
     }
 
     public Map<String, Integer> getExits() {
-        return new HashMap<String, Integer>(exits);
+        return new LinkedHashMap<String, Integer>(exits);
     }
 
     @Override
