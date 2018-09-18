@@ -1,5 +1,6 @@
 package cambeeler;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -8,16 +9,25 @@ import java.util.Set;
 /**
  * Created by dev on 8/12/2015.
  */
-public class Location {
-    private final int locationID;
-    private final String description;
-    private final Map<String, Integer> exits;
+public class Location implements Serializable
+{
+    private         long                    serialVersionUID    =   1L;
+    private final   int                     locationID;
+    private final   String                  description;
+    private final   Map<String, Integer>    exits;
 
     public Location(int locationID, String description) {
         this.locationID = locationID;
         this.description = description;
         this.exits = new LinkedHashMap<String, Integer>();
-//        this.exits.put("Q", 0);
+        this.exits.put("Q", 0);
+    }
+
+    public Location(int locationID, String description, Map<String, Integer> exits)
+    {
+        this.locationID = locationID;
+        this.description = description;
+        this.exits = exits;
     }
 
     @Override
@@ -48,16 +58,16 @@ public class Location {
     {
         String builder = "Node ID = " + locationID + ", Node Desc = " + description.trim() + "\n";
 
-        builder += "--";
+        builder += "\t";
         int incr = 0;
 
         for(String s : exits.keySet())
         {
             if(incr++ == 0)
             {
-                builder += s + ", Dest. node: " + exits.get(s).intValue()  ;
+                builder += s + " :: " + exits.get(s).intValue()  ;
             } else
-                {builder += ",\n--" + s + ", Dest. node: " + exits.get(s).intValue() ;}
+                {builder += ",\n\t" + s + " :: " + exits.get(s).intValue() ;}
 
         }
 

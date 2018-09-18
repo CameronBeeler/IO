@@ -25,6 +25,10 @@ public class Main {
         vocabulary.put("SOUTH", "S");
         vocabulary.put("WEST", "W");
         vocabulary.put("EAST", "E");
+        vocabulary.put("DOWN", "D");
+        vocabulary.put("UP", "U");
+
+//        System.out.println(locations.get(0).getDescription());
 
 
         int loc = 64;
