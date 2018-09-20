@@ -22,27 +22,15 @@ implements Map<Integer, Location>
 //            writeBinary();
 //            readBinary();
 //            writeSerialObject();
-            readSerialObject();
+//            readSerialObject();
+//            writeTextFile();
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
 
-//        try(BufferedWriter bw = new BufferedWriter( new FileWriter(FILENAME));
-//            BufferedWriter bwe =  new BufferedWriter( new FileWriter(DIRECTIONMAP))
-//        )
-//        {
-//            for (Location l : locations.values())
-//            {
-//                bw.write(l.getLocationID() + "," + (l.getDescription().trim()) + "\n");
-//                for(String direction: l.getExits().keySet()) {
-//                    bwe.write(l.getLocationID() + "," + direction + "," + l.getExits().get(direction) + "\n" );
-//                }
-//            }
-//        }
-//
-//        PRINT OUT ALL LOCATIONS & EXITS
+ //        PRINT OUT ALL LOCATIONS & EXITS
         for(Location l:locations.values())
         {
             System.out.println(l);
@@ -94,49 +82,76 @@ implements Map<Integer, Location>
         }
 
 
-//        try(BufferedReader br = new BufferedReader(new FileReader(FILENAME));)
-//        {
-//            String sTemp, input;
-//            Integer iTemp;
-//            while((input = br.readLine()) != null)
-//            {
-//                String inputData[] = input.split(",");
-//                iTemp = Integer.parseInt(inputData[0]);
-//                sTemp = inputData[1];
-//                locations.put(iTemp,new Location(iTemp, sTemp) );
-//                iTemp=-1;
-//                sTemp=null;
-//            }
-//        }
-//        catch(IOException e)
-//        {
-//            e.printStackTrace();
-//            System.out.println("Failed to open / create a file handle");
-//        }
-//
-//        try(BufferedReader brExit = new BufferedReader(new FileReader(DIRECTIONMAP)))
-//        {
-//            String direction, inputExit;
-//            Integer inode, newNode;
-//            while((inputExit = brExit.readLine()) != null)
-//            {
-//                String inputExitData[] = inputExit.split(",");
-//                inode = Integer.parseInt(inputExitData[0]);
-//                direction = inputExitData[1];
-//                newNode = Integer.parseInt(inputExitData[2]);
-//                locations.get(inode).addExit(direction, newNode);
-//                inode=-1;
-//                newNode = -1;
-//                direction=null;
-//            }
-//        }
-//        catch(IOException e)
-//        {
-//            e.printStackTrace();
-//            System.out.println("Failed to open / create a file handle");
-//        }
+
     }
 
+    public static
+    void readTextFiles()
+    throws Exception
+    {
+        try(BufferedReader br = new BufferedReader(new FileReader(FILENAME));)
+        {
+            String sTemp, input;
+            Integer iTemp;
+            while((input = br.readLine()) != null)
+            {
+                String inputData[] = input.split(",");
+                iTemp = Integer.parseInt(inputData[0]);
+                sTemp = inputData[1];
+                locations.put(iTemp,new Location(iTemp, sTemp) );
+                iTemp=-1;
+                sTemp=null;
+            }
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            System.out.println("Failed to open / create a file handle");
+        }
+
+        try(BufferedReader brExit = new BufferedReader(new FileReader(DIRECTIONMAP)))
+        {
+            String direction, inputExit;
+            Integer inode, newNode;
+            while((inputExit = brExit.readLine()) != null)
+            {
+                String inputExitData[] = inputExit.split(",");
+                inode = Integer.parseInt(inputExitData[0]);
+                direction = inputExitData[1];
+                newNode = Integer.parseInt(inputExitData[2]);
+                locations.get(inode).addExit(direction, newNode);
+                inode=-1;
+                newNode = -1;
+                direction=null;
+            }
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+            System.out.println("Failed to open / create a file handle");
+        }
+    }
+
+
+    public static
+    void writeTextFile()
+    throws Exception
+    {
+        try(BufferedWriter bw = new BufferedWriter( new FileWriter(FILENAME));
+            BufferedWriter bwe =  new BufferedWriter( new FileWriter(DIRECTIONMAP))
+        )
+        {
+            for (Location l : locations.values())
+            {
+                bw.write(l.getLocationID() + "," + (l.getDescription().trim()) + "\n");
+                for(String direction: l.getExits().keySet()) {
+                    bwe.write(l.getLocationID() + "," + direction + "," + l.getExits().get(direction) + "\n" );
+                }
+            }
+        }
+
+
+    }
     public static
     void writeSerialObject()
     throws Exception
